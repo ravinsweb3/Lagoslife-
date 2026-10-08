@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Lagos Life - Login</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+    }
+
+    body {
+      font-family: "Nunito", sans-serif;
+      background:
+        radial-gradient(circle at 50% 0%, #0d2635 0%, #071924 38%, #181b20 78%);
+      color: #e9edf7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Main page */
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      padding: 35px 18px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Back button */
+    .back {
+      width: 100%;
+      max-width: 620px;
+      margin-bottom: 42px;
+    }
+
+    .back a {
+      color: #7bc7f2;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .back a:hover {
+      color: #9cdbff;
+    }
+
+    /* Logo area */
+    .brand {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    .crown {
+      font-size: 62px;
+      line-height: 1;
+      margin-bottom: 13px;
+
+      filter:
+        drop-shadow(0 5px 8px rgba(0, 0, 0, 0.4));
+    }
+
+    .brand-name {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .brand-name h1 {
+      font-size: clamp(43px, 11vw, 64px);
+      font-weight: 900;
+      letter-spacing: -3px;
+      line-height: 1;
+      color: #eef1ff;
+    }
+
+    .brand-badge {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: #050b20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
+      color: white;
+    }
+
+    .tagline {
+      margin-top: 17px;
+      color: #c7cfdd;
+      font-size: 20px;
+      line-height: 1.35;
+      font-weight: 500;
+    }
+
+    /* Login card */
+    .login-card {
+      width: 100%;
+      max-width: 620px;
+      background: rgba(40, 40, 41, 0.93);
+      border: 1px solid rgba(150, 150, 150, 0.48);
+      border-radius: 42px;
+      padding: 38px 34px 34px;
+
+      box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    /* Tabs */
+    .tabs {
+      width: 100%;
+      height: 76px;
+      padding: 6px;
+      border-radius: 42px;
+      background: rgba(28, 28, 30, 0.75);
+      display: flex;
+      margin-bottom: 40px;
+    }
+
+    .tab {
+      flex: 1;
+      border: none;
+      border-radius: 40px;
+      background: transparent;
+      color: #c9cddd;
+      font-family: inherit;
+      font-size: 20px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .tab.active {
+      background: #6b6b6d;
+      color: #f4f5fb;
+      box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Form */
+    .form-group {
+      margin-bottom: 27px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 12px;
+      color: #dce0ee;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    input {
+      width: 100%;
+      height: 82px;
+      border: none;
+      outline: none;
+      border-radius: 45px;
+      padding: 0 28px;
+
+      background: #303136;
+      color: #f1f3fa;
+
+      font-family: inherit;
+      font-size: 20px;
+      font-weight: 600;
+
+      box-shadow:
+        inset 0 1px 5px rgba(0, 0, 0, 0.08);
+
+      transition: 0.2s ease;
+    }
+
+    input::placeholder {
+      color: #9296a5;
+    }
+
+    input:focus {
+      background: #34353a;
+      box-shadow:
+        0 0 0 2px rgba(92, 193, 255, 0.22);
+    }
+
+    /* Password eye */
+    .eye-button {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+
+      width: 55px;
+      height: 55px;
+
+      border: none;
+      background: transparent;
+      color: #b9c0d2;
+
+      font-size: 27px;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+
+    .eye-button:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Forgot password */
+    .forgot {
+      display: inline-block;
+      margin: 1px 0 37px 1px;
+
+      color: #71c8f6;
+      font-size: 18px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .forgot:hover {
+      text-decoration: underline;
+    }
+
+    /* Login button */
+    .login-button {
+      width: 100%;
+      height: 94px;
+
+      border: none;
+      border-radius: 50px;
+
+      background: #078944;
+      color: #e9fff2;
+
+      font-family: inherit;
+      font-size: 24px;
+      font-weight: 900;
+
+      cursor: pointer;
+
+      box-shadow:
+        0 10px 25px rgba(0, 180, 80, 0.25);
+
+      transition: 0.2s ease;
+    }
+
+    .login-button:hover {
+      background: #099b4f;
+      transform: translateY(-1px);
+      box-shadow:
+        0 13px 30px rgba(0, 180, 80, 0.35);
+    }
+
+    .login-button:active {
+      transform: scale(0.985);
+    }
+
+    .welcome {
+      text-align: center;
+      margin-top: 21px;
+
+      color: #b8bdcc;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    /* Create account screen */
+    .signup-form {
+      display: none;
+    }
+
+    .signup-form.active {
+      display: block;
+    }
+
+    .login-form.hidden {
+      display: none;
+    }
+
+    .login-form {
+      display: block;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: auto;
+      padding-top: 75px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .official {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      background: #66676a;
+      color: #e6e9ef;
+
+      padding: 10px 20px;
+      border-radius: 30px;
+
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .verified {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #67d9a1;
+      color: #273b32;
+
+      font-size: 13px;
+    }
+
+    .social {
+      width: 47px;
+      height: 47px;
+      border-radius: 50%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: rgba(38, 39, 43, 0.9);
+      color: #8e929e;
+
+      font-weight: 900;
+      font-size: 17px;
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+
+      .page {
+        padding: 31px 17px 30px;
+      }
+
+      .back {
+        margin-bottom: 38px;
+      }
+
+      .brand {
+        margin-bottom: 39px;
+      }
+
+      .crown {
+        font-size: 55px;
+      }
+
+      .brand-name h1 {
+        font-size: 48px;
+      }
+
+      .brand-badge {
+        width: 39px;
+        height: 39px;
+        font-size: 11px;
+      }
+
+      .tagline {
+        font-size: 18px;
+      }
+
+      .login-card {
+        border-radius: 37px;
+        padding: 31px 34px 30px;
+      }
+
+      .tabs {
+        height: 70px;
+        margin-bottom: 34px;
+      }
+
+      .tab {
+        font-size: 18px;
+      }
+
+      .form-group label {
+        font-size: 17px;
+      }
+
+      input {
+        height: 81px;
+        font-size: 19px;
+      }
+
+      .login-button {
+        height: 91px;
+        font-size: 23px;
+      }
+
+      .footer {
+        padding-top: 60px;
+      }
+    }
+
+    @media (max-width: 390px) {
+
+      .login-card {
+        padding-left: 25px;
+        padding-right: 25px;
+      }
+
+      .brand-name h1 {
+        font-size: 43px;
+      }
+
+      .tagline {
+        font-size: 16px;
+      }
+
+      input {
+        height: 73px;
+      }
+
+      .login-button {
+        height: 82px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <!-- Back -->
+    <div class="back">
+      <a href="#" onclick="goBack()">← Back to Lagos</a>
+    </div>
+
+
+    <!-- Branding -->
+    <section class="brand">
+
+      <div class="crown">👑</div>
+
+      <div class="brand-name">
+        <h1>Lagos Life</h1>
+        <span class="brand-badge">GAME</span>
+      </div>
+
+      <p class="tagline">
+        Live your Lagos story with real people.
+      </p>
+
+    </section>
+
+
+    <!-- Login Card -->
+    <section class="login-card">
+
+      <!-- Tabs -->
+      <div class="tabs">
+
+        <button
+          class="tab"
+          id="signupTab"
+          onclick="showSignup()">
+          Create account
+        </button>
+
+        <button
+          class="tab active"
+          id="loginTab"
+          onclick="showLogin()">
+          Log in
+        </button>
+
+      </div>
+
+
+      <!-- LOGIN FORM -->
+      <form
+        class="login-form"
+        id="loginForm"
+        onsubmit="login(event)">
+
+        <div class="form-group">
+
+          <label for="loginUsername">
+            Username or email
+          </label>
+
+          <input
+            type="text"
+            id="loginUsername"
+            placeholder="your_username"
+            autocomplete="username"
+            required>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="loginPassword">
+            Password
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder=""
+              autocomplete="current-password"
+              required>
+
+            <button
+              type="button"
+              class="eye-button"
+              onclick="togglePassword('loginPassword', this)"
+              aria-label="Show password">
+              ◉
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <a
+          href="#"
+          class="forgot"
+          onclick="forgotPassword(event)">
+          Forgot password?
+        </a>
+
+
+        <button
+          type="submit"
+          class="login-button">
+          Log in
+        </button>
+
+
+        <p class="welcome">
+          Welcome back to Lagos.
+        </p>
+
+      </form>
+
+
+      <!-- CREATE ACCOUNT FORM -->
+      <form
+        class="signup-form"
+        id="signupForm"
+        onsubmit="createAccount(event)">
+
+        <div class="form-group">
+
+          <label for="name">
+            Your name
+          </label>
+
+          <input
+            type="text"
+            id="name"
+            placeholder="e.g. Tolu Adebayo"
+            autocomplete="name"
+            required>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="username">
+            Username
+          </label>
+
+          <input
+            type="text"
+            id="username"
+            placeholder="@your_username"
+            autocomplete="username"
+            required>
+
+          <p style="
+            margin-top:10px;
+            color:#aeb4c3;
+            font-size:15px;
+          ">
+            This is your character's name in Lagos Life.
+          </p>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="signupPassword">
+            Password
+          </label>
+
+          <div class="input-wrapper">
+
+            <input
+              type="password"
+              id="signupPassword"
+              placeholder=""
+              minlength="8"
+              autocomplete="new-password"
+              required>
+
+            <button
+              type="button"
+              class="eye-button"
+              onclick="togglePassword('signupPassword', this)"
+              aria-label="Show password">
+              ◉
+            </button>
+
+          </div>
+
+          <p style="
+            margin-top:10px;
+            color:#aeb4c3;
+            font-size:15px;
+          ">
+            At least 8 characters.
+          </p>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="email">
+            Email (optional)
+          </label>
+
+          <input
+            type="email"
+            id="email"
+            placeholder="you@email.com"
+            autocomplete="email">
+
+          <p style="
+            margin-top:10px;
+            color:#aeb4c3;
+            font-size:15px;
+          ">
+            You can use it to log in later.
+          </p>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="login-button">
+          Create account
+        </button>
+
+
+        <p class="welcome">
+          Your Lagos Life story starts here.
+        </p>
+
+      </form>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+
+      <div class="official">
+        <span class="verified">✓</span>
+        Official
+      </div>
+
+      <div class="social">𝕏</div>
+      <div class="social">♪</div>
+      <div class="social">◎</div>
+      <div class="social">in</div>
+
+    </footer>
+
+  </main>
+
+
+  <script>
+
+    /* =========================
+       SWITCH TO LOGIN
+    ========================= */
+
+    function showLogin() {
+
+      document
+        .getElementById("loginForm")
+        .classList.remove("hidden");
+
+      document
+        .getElementById("signupForm")
+        .classList.remove("active");
+
+      document
+        .getElementById("loginTab")
+        .classList.add("active");
+
+      document
+        .getElementById("signupTab")
+        .classList.remove("active");
+    }
+
+
+    /* =========================
+       SWITCH TO SIGN UP
+    ========================= */
+
+    function showSignup() {
+
+      document
+        .getElementById("loginForm")
+        .classList.add("hidden");
+
+      document
+        .getElementById("signupForm")
+        .classList.add("active");
+
+      document
+        .getElementById("signupTab")
+        .classList.add("active");
+
+      document
+        .getElementById("loginTab")
+        .classList.remove("active");
+    }
+
+
+    /* =========================
+       SHOW / HIDE PASSWORD
+    ========================= */
+
+    function togglePassword(inputId, button) {
+
+      const input =
+        document.getElementById(inputId);
+
+      if (input.type === "password") {
+
+        input.type = "text";
+
+        button.textContent = "◉";
+
+      } else {
+
+        input.type = "password";
+
+        button.textContent = "◉";
+      }
+    }
+
+
+    /* =========================
+       LOGIN
+    ========================= */
+
+    function login(event) {
+  event.preventDefault();
+
+  const username = document.getElementById("loginUsername").value;
+  const password = document.getElementById("loginPassword").value;
+
+  alert(
+    "TEST LOGIN\n\n" +
+    "Username: " + username + "\n" +
+    "Password: " + password
+  );
+    }
+
+
+    /* =========================
+       CREATE ACCOUNT
+    ========================= */
+
+    function createAccount(event) {
+
+      event.preventDefault();
+
+      const name =
+        document
+          .getElementById("name")
+          .value
+          .trim();
+
+      if (!name) {
+        return;
+      }
+
+      alert(
+        "Welcome to Lagos Life, " +
+        name + "!"
+      );
+
+      /*
+        Later we can connect this form
+        to Supabase for real account
+        registration.
+      */
+    }
+
+
+    /* =========================
+       FORGOT PASSWORD
+    ========================= */
+
+    function forgotPassword(event) {
+
+      event.preventDefault();
+
+      alert(
+        "Password recovery will be added soon."
+      );
+    }
+
+
+    /* =========================
+       BACK BUTTON
+    ========================= */
+
+    function goBack() {
+
+      if (history.length > 1) {
+        history.back();
+      } else {
+        alert("Welcome to Lagos Life!");
+      }
+    }
+
+  </script>
+
+</body>
+</html>
